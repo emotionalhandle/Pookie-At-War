@@ -59,7 +59,7 @@ public class UnitSelectionManager : MonoBehaviour
         unit.GetComponent<UnitMovement>().enabled = enable;
     }
 
-    private void DeselectAll()
+    public void DeselectAll()
     {
         foreach (GameObject unit in unitsSelected)
         {
