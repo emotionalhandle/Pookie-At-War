@@ -30,6 +30,7 @@ public class RTSCameraController : MonoBehaviour
 
     [Header("Edge Scrolling Movement")]
     [SerializeField] float edgeSize = 50f;
+    [SerializeField] float rotationSpeed = 100f;
     bool isCursorSet = false;
     public Texture2D cursorArrowUp;
     public Texture2D cursorArrowDown;
@@ -115,23 +116,20 @@ public class RTSCameraController : MonoBehaviour
         // Edge Scrolling
         if (moveWithEdgeScrolling)
         {
-
-            // Move Right
+            // Rotate Right
             if (Input.mousePosition.x > Screen.width - edgeSize)
             {
-                newPosition += (transform.right * movementSpeed);
+                transform.Rotate(Vector3.up * rotationSpeed * Time.deltaTime);
                 ChangeCursor(CursorArrow.RIGHT);
                 isCursorSet = true;
             }
-
-            // Move Left
+            // Rotate Left
             else if (Input.mousePosition.x < edgeSize)
             {
-                newPosition += (transform.right * -movementSpeed);
+                transform.Rotate(Vector3.up * -rotationSpeed * Time.deltaTime);
                 ChangeCursor(CursorArrow.LEFT);
                 isCursorSet = true;
             }
-
             // Move Up
             else if (Input.mousePosition.y > Screen.height - edgeSize)
             {

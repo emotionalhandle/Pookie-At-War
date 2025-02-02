@@ -616,12 +616,13 @@ MonoBehaviour:
   cameraTransform: {fileID: 0}
   followTransform: {fileID: 0}
   moveWithKeyboad: 1
-  moveWithEdgeScrolling: 0
-  moveWithMouseDrag: 0
+  moveWithEdgeScrolling: 1
+  moveWithMouseDrag: 1
   fastSpeed: 0.05
   normalSpeed: 0.1
   movementSensitivity: 10
   edgeSize: 50
+  rotationSpeed: 60
   cursorArrowUp: {fileID: 0}
   cursorArrowDown: {fileID: 0}
   cursorArrowLeft: {fileID: 0}
