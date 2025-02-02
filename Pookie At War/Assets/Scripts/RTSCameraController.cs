@@ -30,7 +30,6 @@ public class RTSCameraController : MonoBehaviour
 
     [Header("Edge Scrolling Movement")]
     [SerializeField] float edgeSize = 50f;
-    [SerializeField] float rotationSpeed = 100f;
     bool isCursorSet = false;
     public Texture2D cursorArrowUp;
     public Texture2D cursorArrowDown;
@@ -116,20 +115,23 @@ public class RTSCameraController : MonoBehaviour
         // Edge Scrolling
         if (moveWithEdgeScrolling)
         {
-            // Rotate Right
+
+            // Move Right
             if (Input.mousePosition.x > Screen.width - edgeSize)
             {
-                transform.Rotate(Vector3.up * rotationSpeed * Time.deltaTime);
+                newPosition += (transform.right * movementSpeed);
                 ChangeCursor(CursorArrow.RIGHT);
                 isCursorSet = true;
             }
-            // Rotate Left
+
+            // Move Left
             else if (Input.mousePosition.x < edgeSize)
             {
-                transform.Rotate(Vector3.up * -rotationSpeed * Time.deltaTime);
+                newPosition += (transform.right * -movementSpeed);
                 ChangeCursor(CursorArrow.LEFT);
                 isCursorSet = true;
             }
+
             // Move Up
             else if (Input.mousePosition.y > Screen.height - edgeSize)
             {
@@ -171,13 +173,13 @@ public class RTSCameraController : MonoBehaviour
                     Cursor.SetCursor(cursorArrowUp, Vector2.zero, CursorMode.Auto);
                     break;
                 case CursorArrow.DOWN:
-                    Cursor.SetCursor(cursorArrowDown, new Vector2(cursorArrowDown.width, cursorArrowDown.height), CursorMode.Auto); // So the Cursor will stay inside view
+                    Cursor.SetCursor(cursorArrowDown, Vector2.zero, CursorMode.Auto); // So the Cursor will stay inside view
                     break;
                 case CursorArrow.LEFT:
                     Cursor.SetCursor(cursorArrowLeft, Vector2.zero, CursorMode.Auto);
                     break;
                 case CursorArrow.RIGHT:
-                    Cursor.SetCursor(cursorArrowRight, new Vector2(cursorArrowRight.width, cursorArrowRight.height), CursorMode.Auto); // So the Cursor will stay inside view
+                    Cursor.SetCursor(cursorArrowRight, Vector2.zero, CursorMode.Auto); // So the Cursor will stay inside view
                     break;
                 case CursorArrow.DEFAULT:
                     Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
