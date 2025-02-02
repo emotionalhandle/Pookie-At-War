@@ -577,8 +577,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 591355148}
+  - component: {fileID: 591355149}
   m_Layer: 0
-  m_Name: CameraRig
+  m_Name: CameraController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -600,6 +601,31 @@ Transform:
   - {fileID: 330585546}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
+--- !u!114 &591355149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 591355147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d278f96a5de71f499b6a95ab6bc0371, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraTransform: {fileID: 0}
+  followTransform: {fileID: 0}
+  moveWithKeyboad: 1
+  moveWithEdgeScrolling: 0
+  moveWithMouseDrag: 0
+  fastSpeed: 0.05
+  normalSpeed: 0.1
+  movementSensitivity: 10
+  edgeSize: 50
+  cursorArrowUp: {fileID: 0}
+  cursorArrowDown: {fileID: 0}
+  cursorArrowLeft: {fileID: 0}
+  cursorArrowRight: {fileID: 0}
 --- !u!1001 &629677418
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -698,7 +724,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 149588113374212462, guid: 23250e70e311cc342aa615726fcd285e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.110000014
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 149588113374212462, guid: 23250e70e311cc342aa615726fcd285e, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1152,7 +1178,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 149588113374212462, guid: 23250e70e311cc342aa615726fcd285e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.12900007
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 149588113374212462, guid: 23250e70e311cc342aa615726fcd285e, type: 3}
       propertyPath: m_LocalPosition.z
