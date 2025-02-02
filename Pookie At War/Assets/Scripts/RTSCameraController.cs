@@ -30,6 +30,8 @@ public class RTSCameraController : MonoBehaviour
 
     [Header("Edge Scrolling Movement")]
     [SerializeField] float edgeSize = 50f;
+    [SerializeField] float rotationSpeed = 100f;
+    float rotationDelta = 0f;
     bool isCursorSet = false;
     public Texture2D cursorArrowUp;
     public Texture2D cursorArrowDown;
@@ -115,19 +117,17 @@ public class RTSCameraController : MonoBehaviour
         // Edge Scrolling
         if (moveWithEdgeScrolling)
         {
-
-            // Move Right
+            // Rotate Right
             if (Input.mousePosition.x > Screen.width - edgeSize)
             {
-                newPosition += (transform.right * movementSpeed);
+                rotationDelta += rotationSpeed * Time.deltaTime;
                 ChangeCursor(CursorArrow.RIGHT);
                 isCursorSet = true;
             }
-
-            // Move Left
+            // Rotate Left
             else if (Input.mousePosition.x < edgeSize)
             {
-                newPosition += (transform.right * -movementSpeed);
+                rotationDelta -= rotationSpeed * Time.deltaTime;
                 ChangeCursor(CursorArrow.LEFT);
                 isCursorSet = true;
             }
@@ -158,6 +158,8 @@ public class RTSCameraController : MonoBehaviour
         }
 
         transform.position = Vector3.Lerp(transform.position, newPosition, Time.deltaTime * movementSensitivity);
+        transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y + rotationDelta, 0f);
+        rotationDelta = 0f;
 
         Cursor.lockState = CursorLockMode.Confined; // If we have an extra monitor we don't want to exit screen bounds
     }
