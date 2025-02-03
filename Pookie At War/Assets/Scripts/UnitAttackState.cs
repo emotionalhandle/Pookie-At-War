@@ -10,6 +10,7 @@ public class UnitAttackState : StateMachineBehaviour
     {
         agent = animator.GetComponent<NavMeshAgent>();
         attackController = animator.GetComponent<AttackController>();
+        attackController.SetAttackStateMaterial();
     }
 
 
@@ -22,7 +23,6 @@ public class UnitAttackState : StateMachineBehaviour
             agent.SetDestination(attackController.targetToAttack.position);
 
             float distance = Vector3.Distance(animator.transform.position, attackController.targetToAttack.position);
-            Debug.Log("Distance: " + distance);
             if (distance > stopAttackingDistance || attackController.targetToAttack == null)
             {
                 // Transition to Follow State

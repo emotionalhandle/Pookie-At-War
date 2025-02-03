@@ -12,6 +12,7 @@ public class UnitFollowState : StateMachineBehaviour
     {
         attackController = animator.GetComponent<AttackController>();
         agent = animator.GetComponent<NavMeshAgent>();
+        attackController.SetFollowStateMaterial();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
