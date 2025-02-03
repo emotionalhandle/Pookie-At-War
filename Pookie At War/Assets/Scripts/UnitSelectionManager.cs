@@ -9,6 +9,8 @@ public class UnitSelectionManager : MonoBehaviour
     public List<GameObject> allUnits = new List<GameObject>();
     public LayerMask clickable;
     public LayerMask ground;
+    public LayerMask attackable;
+    public bool attackCursorVisible;
     public GameObject groundMarker;
     public Camera cam;
 
@@ -121,7 +123,53 @@ public class UnitSelectionManager : MonoBehaviour
                 groundMarker.SetActive(true);
             }
         }
+
+        // Attack Target //
+
+        if (unitsSelected.Count > 0 && AtLeastOneOffensiveUnit(unitsSelected))
+        {
+            RaycastHit hit;
+            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, attackable))
+            {
+                Debug.Log("Enemy hovered with mouse");
+
+                attackCursorVisible = true;
+
+                if (Input.GetMouseButtonDown(1))
+                {
+                    Transform target = hit.transform;   
+
+                    foreach (GameObject unit in unitsSelected)
+                    {
+                        if (unit.GetComponent<AttackController>() != null)
+                        {
+                            unit.GetComponent<AttackController>().targetToAttack = target;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                attackCursorVisible = false;
+            }
+        }
+
     }
+
+    private bool AtLeastOneOffensiveUnit(List<GameObject> unitsSelected)
+    {
+        foreach (GameObject unit in unitsSelected)
+        {
+            if (unit.GetComponent<AttackController>())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     private void TriggerSelectionIndicator(GameObject unit, bool isSelected)
     {
