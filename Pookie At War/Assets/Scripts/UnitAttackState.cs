@@ -22,7 +22,7 @@ public class UnitAttackState : StateMachineBehaviour
         {
             LookAtTarget(animator);
             // Keep moving towards the target
-            agent.SetDestination(attackController.targetToAttack.position);
+            //agent.SetDestination(attackController.targetToAttack.position);
 
             if (attackTimer <= 0)
             {
@@ -34,7 +34,6 @@ public class UnitAttackState : StateMachineBehaviour
                 attackTimer -= Time.deltaTime;
             }
 
-
             float distance = Vector3.Distance(animator.transform.position, attackController.targetToAttack.position);
             if (distance > stopAttackingDistance || attackController.targetToAttack == null)
 
@@ -43,6 +42,10 @@ public class UnitAttackState : StateMachineBehaviour
                 animator.SetBool("isAttacking", false);
                 Debug.Log("Transitioning to Attack State");
             }
+        }
+        else
+        {
+            animator.SetBool("isAttacking", false);
         }
     }
 

@@ -11,7 +11,14 @@ public class AttackController : MonoBehaviour
     public bool isPlayer;
     
     private void OnTriggerEnter(Collider other)
+    {
+        if (isPlayer && other.gameObject.CompareTag("Enemy") && targetToAttack == null)
+        {
+            targetToAttack = other.transform;
+        }
+    }
 
+    private void OnTriggerStay(Collider other)
     {
         if (isPlayer && other.gameObject.CompareTag("Enemy") && targetToAttack == null)
         {
