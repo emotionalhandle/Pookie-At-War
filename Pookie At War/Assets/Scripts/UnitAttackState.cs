@@ -22,8 +22,12 @@ public class UnitAttackState : StateMachineBehaviour
             // Keep moving towards the target
             agent.SetDestination(attackController.targetToAttack.position);
 
+            var damageToInflict = attackController.unitDamage;
+            attackController.targetToAttack.GetComponent<Enemy>().ReceiveDamage(damageToInflict);
+
             float distance = Vector3.Distance(animator.transform.position, attackController.targetToAttack.position);
             if (distance > stopAttackingDistance || attackController.targetToAttack == null)
+
             {
                 // Transition to Follow State
                 animator.SetBool("isAttacking", false);
