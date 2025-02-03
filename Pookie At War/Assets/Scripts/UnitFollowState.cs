@@ -30,11 +30,11 @@ public class UnitFollowState : StateMachineBehaviour
 
         // --- Check if the target is within attacking distance --- //
         float distance = Vector3.Distance(animator.transform.position, attackController.targetToAttack.position);
-        if (distance <= attackingDistance)
+        /*if (distance <= attackingDistance)
         {
             // --- Transition to Attack State --- //
             animator.SetBool("isAttacking", true);
-        }
+        }*/
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
