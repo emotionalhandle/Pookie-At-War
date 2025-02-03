@@ -23,22 +23,23 @@ public class UnitFollowState : StateMachineBehaviour
             animator.SetBool("isFollowing", false);
             return;
         }
-
-        // --- Move towards the target --- //
-        agent.SetDestination(attackController.targetToAttack.position);
-        animator.transform.LookAt(attackController.targetToAttack);
-
-        // --- Check if the target is within attacking distance --- //
-        float distance = Vector3.Distance(animator.transform.position, attackController.targetToAttack.position);
-        /*if (distance <= attackingDistance)
+        else
         {
-            // --- Transition to Attack State --- //
-            animator.SetBool("isAttacking", true);
-        }*/
-    }
+            if (animator.GetComponent<UnitMovement>().isCommandedToMove == false)
+            {
+                // --- Move towards the target --- //
+                agent.SetDestination(attackController.targetToAttack.position);
+                animator.transform.LookAt(attackController.targetToAttack);
 
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        agent.SetDestination(animator.transform.position);
+                // --- Check if the target is within attacking distance --- //
+                float distance = Vector3.Distance(animator.transform.position, attackController.targetToAttack.position);
+                /*if (distance <= attackingDistance)
+                {
+                    // --- Transition to Attack State --- //
+                    agent.SetDestination(animator.transform.position);
+                    animator.SetBool("isAttacking", true);
+                }*/
+            }
+        }
     }
 }
