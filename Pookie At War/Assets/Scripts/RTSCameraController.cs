@@ -48,6 +48,12 @@ public class RTSCameraController : MonoBehaviour
         DEFAULT
     }
 
+    [Header("Zoom")]
+    [SerializeField] float zoomSpeed = 20f;
+    [SerializeField] float minZoomDistance = 5f;
+    [SerializeField] float maxZoomDistance = 50f;
+    float currentZoom;
+
     private void Start()
     {
         instance = this;
@@ -55,6 +61,7 @@ public class RTSCameraController : MonoBehaviour
         newPosition = transform.position;
 
         movementSpeed = normalSpeed;
+        currentZoom = cameraTransform.localPosition.z; // Initialize zoom to current camera distance
     }
 
     private void Update()
@@ -78,6 +85,12 @@ public class RTSCameraController : MonoBehaviour
 
     void HandleCameraMovement()
     {
+        // Handle zoom with scroll wheel
+        float scrollInput = Input.mouseScrollDelta.y;
+        Vector3 zoomDirection = cameraTransform.forward;
+        currentZoom = Mathf.Clamp(currentZoom + scrollInput * zoomSpeed * Time.deltaTime, -maxZoomDistance, -minZoomDistance);
+        cameraTransform.position = transform.position + zoomDirection * currentZoom;
+
         // Mouse Drag
         if (moveWithMouseDrag)
         {

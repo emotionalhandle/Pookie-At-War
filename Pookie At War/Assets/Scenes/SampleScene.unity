@@ -613,7 +613,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d278f96a5de71f499b6a95ab6bc0371, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraTransform: {fileID: 0}
+  cameraTransform: {fileID: 330585546}
   followTransform: {fileID: 0}
   moveWithKeyboad: 1
   moveWithEdgeScrolling: 1
@@ -627,6 +627,9 @@ MonoBehaviour:
   cursorArrowDown: {fileID: 0}
   cursorArrowLeft: {fileID: 0}
   cursorArrowRight: {fileID: 0}
+  zoomSpeed: 20
+  minZoomDistance: 5
+  maxZoomDistance: 50
 --- !u!1001 &839590892
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -818,26 +821,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 882500305864254347, guid: 3ca435c837db3a245be91ba4d40409ad, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 882500305864254347, guid: 3ca435c837db3a245be91ba4d40409ad, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2989428651950003453, guid: 3ca435c837db3a245be91ba4d40409ad, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2989428651950003453, guid: 3ca435c837db3a245be91ba4d40409ad, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2989428651950003453, guid: 3ca435c837db3a245be91ba4d40409ad, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2989428651950003453, guid: 3ca435c837db3a245be91ba4d40409ad, type: 3}
-      propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3447690481525307115, guid: 3ca435c837db3a245be91ba4d40409ad, type: 3}
