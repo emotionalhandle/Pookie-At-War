@@ -819,7 +819,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5398728749779927498, guid: 23250e70e311cc342aa615726fcd285e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.894989
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6339554783917772200, guid: 23250e70e311cc342aa615726fcd285e, type: 3}
+      propertyPath: m_Radius
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 8318615389289445199, guid: 23250e70e311cc342aa615726fcd285e, type: 3}
       propertyPath: m_AnchorMax.x
@@ -840,6 +844,10 @@ PrefabInstance:
     - target: {fileID: 8525100525890655403, guid: 23250e70e311cc342aa615726fcd285e, type: 3}
       propertyPath: m_Name
       value: Unit (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 9192090060989976775, guid: 23250e70e311cc342aa615726fcd285e, type: 3}
+      propertyPath: m_AutoBraking
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9192090060989976775, guid: 23250e70e311cc342aa615726fcd285e, type: 3}
       propertyPath: m_Acceleration

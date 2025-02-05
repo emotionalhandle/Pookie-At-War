@@ -50,18 +50,19 @@ public class RTSCameraController : MonoBehaviour
 
     [Header("Zoom")]
     [SerializeField] float zoomSpeed = 20f;
-    [SerializeField] float minZoomDistance = 5f;
+    [SerializeField] float minZoomDistance = 0f;
     [SerializeField] float maxZoomDistance = 50f;
-    float currentZoom;
+    public float currentZoom;
 
     private void Start()
     {
         instance = this;
-
         newPosition = transform.position;
-
         movementSpeed = normalSpeed;
-        currentZoom = cameraTransform.localPosition.z; // Initialize zoom to current camera distance
+        
+        // Calculate initial zoom based on camera's distance along its forward direction
+        Vector3 offset = cameraTransform.position - transform.position;
+        currentZoom = -Vector3.Dot(offset, cameraTransform.forward);
     }
 
     private void Update()
