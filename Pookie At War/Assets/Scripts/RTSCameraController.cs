@@ -59,16 +59,6 @@ public class RTSCameraController : MonoBehaviour
         instance = this;
         newPosition = transform.position;
         movementSpeed = normalSpeed;
-        
-        // Calculate initial zoom based on camera's distance along its forward direction
-        Vector3 offset = cameraTransform.position - transform.position;
-        Debug.Log(cameraTransform.position);
-        Debug.Log(transform.position);
-        Debug.Log(offset);
-        currentZoom = -Vector3.Dot(offset, cameraTransform.forward);
-        Debug.Log(currentZoom);
-
-
     }
 
     private void Update()
