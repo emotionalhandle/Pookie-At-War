@@ -5,18 +5,43 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public Button buildButton;
-    public PlacementSystem placement;
+    public static UIManager Instance { get; private set; }
+
+    [SerializeField] private Button claimButton;
+    
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
 
     private void Start()
     {
-        buildButton.onClick.AddListener(() => Construct(0));
-        Debug.Log("Should have done something");
+        claimButton.interactable = false;  // Start with button disabled
     }
 
-    private void Construct(int id)
+    public void ShowClaimInterface(SpawnPoint spawnPoint)
     {
-        Debug.Log("clicked");
-        placement.StartPlacement(id);
+        Debug.Log("Enabling claim button");
+        claimButton.interactable = true;
+    }
+
+    public void HideClaimInterface()
+    {
+        Debug.Log("Disabling claim button");
+        claimButton.interactable = false;
+    }
+
+    public void OnClaimButtonClicked()
+    {
+        Debug.Log("Claim button clicked");
+        SpawnPointManager.Instance.ClaimSpawnPoint(0);  // 0 = player ID
+        HideClaimInterface();
     }
 }
