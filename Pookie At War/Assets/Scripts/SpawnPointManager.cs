@@ -43,11 +43,11 @@ public class SpawnPointManager : MonoBehaviour
         selectedSpawnPoint = spawnPoint;
     }
 
-    public void ClaimSpawnPoint(int ownerID)
+    public void ClaimSpawnPoint(int ownerID, General general)
     {
         if (selectedSpawnPoint != null && !selectedSpawnPoint.IsClaimed)
         {
-            selectedSpawnPoint.SetOwnership(ownerID);
+            selectedSpawnPoint.SetOwnership(ownerID, general);
             
             // Add to owner's list of spawn points
             if (!spawnPointsByOwner.ContainsKey(ownerID))

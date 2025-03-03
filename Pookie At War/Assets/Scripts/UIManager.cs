@@ -48,7 +48,20 @@ public class UIManager : MonoBehaviour
     public void OnClaimButtonClicked()
     {
         Debug.Log("Claim button clicked");
-        SpawnPointManager.Instance.ClaimSpawnPoint(0);  // 0 = player ID
+        
+        // Get all player-controlled generals
+        var playerGenerals = GeneralManager.Instance.GetPlayerControlledGenerals();
+        
+        if (playerGenerals.Count > 0)
+        {
+            // For now, use the first player general. You could add UI to select which general to use
+            var general = playerGenerals[0];
+            SpawnPointManager.Instance.ClaimSpawnPoint(general.GeneralID, general);
+        }
+        else
+        {
+            Debug.LogError("No player-controlled generals found!");
+        }
         HideClaimInterface();
     }
     

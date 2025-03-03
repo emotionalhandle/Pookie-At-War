@@ -1,19 +1,59 @@
 using UnityEngine;
+using UnityEngine.AI;
 
-public class Unit :MonoBehaviour
+public class Unit : MonoBehaviour
 {
+    [SerializeField] private float followDistance = 5f; // How close to get to the general
+    [SerializeField] private float updatePathInterval = 0.5f; // How often to update the path
+    private NavMeshAgent agent;
+    private float nextPathUpdate;
+
     private float unitHealth;
     public float unitMaxHealth = 100f;
-    public int OwnerID { get; private set; } = -1; // -1 = unclaimed, 0 = player, 1+ = AI clans
+    public int OwnerID { get; private set; } = -1; // -1 = unclaimed, 0+ = general IDs
+    public General ControllingGeneral { get; private set; }
 
     public HealthTracker healthTracker;
+    private Renderer rend;
     
     void Start()
     {
         UnitSelectionManager.Instance.allUnits.Add(gameObject);
-
+        rend = GetComponent<Renderer>();
         unitHealth = unitMaxHealth;
         UpdateHealthUI();
+        
+        // Get the NavMeshAgent component
+        agent = GetComponent<NavMeshAgent>();
+        if (agent == null)
+        {
+            Debug.LogError($"NavMeshAgent missing on unit {gameObject.name}!");
+        }
+    }
+
+    void Update()
+    {
+        if (ControllingGeneral != null && agent != null)
+        {
+            // Only update path periodically to save performance
+            if (Time.time >= nextPathUpdate)
+            {
+                Vector3 generalPosition = ControllingGeneral.transform.position;
+                float distanceToGeneral = Vector3.Distance(transform.position, generalPosition);
+                
+                // Only move if we're too far from the general
+                if (distanceToGeneral > followDistance)
+                {
+                    agent.SetDestination(generalPosition);
+                }
+                else
+                {
+                    agent.ResetPath();
+                }
+                
+                nextPathUpdate = Time.time + updatePathInterval;
+            }
+        }
     }
 
     private void UpdateHealthUI()
@@ -22,6 +62,10 @@ public class Unit :MonoBehaviour
         if (unitHealth <= 0)
         {
             // Dying logic
+            if (ControllingGeneral != null)
+            {
+                ControllingGeneral.RemoveUnit(this);
+            }
             Destroy(gameObject);
         }
     }
@@ -32,14 +76,29 @@ public class Unit :MonoBehaviour
         UpdateHealthUI();
     }
     
-    public void SetOwner(int newOwnerID)
+    public void SetOwner(int newOwnerID, General general = null)
     {
+        if (ControllingGeneral != null)
+        {
+            ControllingGeneral.RemoveUnit(this);
+        }
+        
         OwnerID = newOwnerID;
-        // You could add additional logic here, like changing the unit's color based on owner
+        ControllingGeneral = general;
+        
+        // Update unit appearance based on general's color
+        if (rend != null && general != null)
+        {
+            rend.material.color = general.GetGeneralColor();
+        }
     }
 
     private void OnDestroy()
     {
+        if (ControllingGeneral != null)
+        {
+            ControllingGeneral.RemoveUnit(this);
+        }
         UnitSelectionManager.Instance.allUnits.Remove(gameObject);
     }
 }
