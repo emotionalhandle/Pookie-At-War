@@ -88,6 +88,33 @@ public class UnitSelectionManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Kill selected units when K is pressed
+        if (Input.GetKeyDown(KeyCode.K) && unitsSelected.Count > 0)
+        {
+            // Create a new list to avoid modification during enumeration
+            List<GameObject> unitsToKill = new List<GameObject>(unitsSelected);
+            foreach (GameObject unit in unitsToKill)
+            {
+                KillUnit(unit);
+            }
+            // Clear selection after killing units
+            unitsSelected.Clear();
+            groundMarker.SetActive(false);
+            return; // Skip the rest of the update for this frame
+        }
+
+        // Only process selection and movement if we have valid units
+        List<GameObject> validUnits = unitsSelected.FindAll(unit => unit != null);
+        if (validUnits.Count != unitsSelected.Count)
+        {
+            // Clean up any null references
+            unitsSelected = validUnits;
+            if (unitsSelected.Count == 0)
+            {
+                groundMarker.SetActive(false);
+            }
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
@@ -174,5 +201,42 @@ public class UnitSelectionManager : MonoBehaviour
     private void TriggerSelectionIndicator(GameObject unit, bool isSelected)
     {
         unit.transform.GetChild(0).gameObject.SetActive(isSelected);
+    }
+
+    public void KillUnit(GameObject unit)
+    {
+        Unit unitComponent = unit.GetComponent<Unit>();
+        if (unitComponent != null)
+        {
+            // Deal enough damage to kill the unit
+            // The TakeDamage function will handle cleanup and destruction
+            unitComponent.TakeDamage((int)unitComponent.unitMaxHealth);
+        }
+        else
+        {
+            // Fallback to old behavior if somehow the Unit component is missing
+            if (unitsSelected.Contains(unit))
+            {
+                SelectUnit(unit, false);
+                unitsSelected.Remove(unit);
+            }
+            
+            if (allUnits.Contains(unit))
+            {
+                allUnits.Remove(unit);
+            }
+
+            // If any selected units were targeting this unit for attack, clear their target
+            foreach (GameObject selectedUnit in unitsSelected)
+            {
+                AttackController attackController = selectedUnit.GetComponent<AttackController>();
+                if (attackController != null && attackController.targetToAttack == unit.transform)
+                {
+                    attackController.targetToAttack = null;
+                }
+            }
+
+            Destroy(unit);
+        }
     }
 }
