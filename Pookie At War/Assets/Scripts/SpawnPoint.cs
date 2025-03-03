@@ -7,6 +7,9 @@ public class SpawnPoint : MonoBehaviour
 {
     [SerializeField] private Material unclaimedMaterial;
     [SerializeField] private Material claimedMaterial;
+    [SerializeField] private GameObject unitPrefab; // Add reference to the unit prefab
+    [SerializeField] private float unitSpawnInterval = 5f; // Time between unit spawns
+    [SerializeField] private float spawnRadius = 2f; // Distance from spawn point to place new units
     private Renderer rend;
     private Color originalColor;
     
@@ -58,8 +61,37 @@ public class SpawnPoint : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(5f);
-            Debug.Log($"Unit created at spawn point {transform.position}");
+            yield return new WaitForSeconds(unitSpawnInterval);
+            
+            if (unitPrefab != null)
+            {
+                // Generate a random position around the spawn point
+                float randomAngle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
+                Vector3 randomDirection = new Vector3(Mathf.Cos(randomAngle), 0f, Mathf.Sin(randomAngle));
+                Vector3 spawnPosition = transform.position + randomDirection * spawnRadius;
+                
+                // Ensure the unit is above the ground
+                spawnPosition.y = transform.position.y + 0.5f;
+                
+                // Instantiate the unit
+                GameObject unitObject = Instantiate(unitPrefab, spawnPosition, Quaternion.identity);
+                
+                // Set the unit's owner
+                Unit unit = unitObject.GetComponent<Unit>();
+                if (unit != null)
+                {
+                    unit.SetOwner(OwnerID);
+                    Debug.Log($"Unit spawned at {spawnPosition} for owner {OwnerID}");
+                }
+                else
+                {
+                    Debug.LogWarning("Spawned object does not have a Unit component");
+                }
+            }
+            else
+            {
+                Debug.LogError("No unit prefab assigned to spawn point");
+            }
         }
     }
 }

@@ -16,6 +16,9 @@ public class RTSCameraController : MonoBehaviour
     Vector3 newPosition;
     Vector3 dragStartPosition;
     Vector3 dragCurrentPosition;
+    
+    // Flag to enable/disable camera movement
+    public bool cameraMovementEnabled = true;
 
     [Header("Optional Functionality")]
     [SerializeField] bool moveWithKeyboad;
@@ -69,7 +72,7 @@ public class RTSCameraController : MonoBehaviour
             transform.position = followTransform.position;
         }
         // Let us control Camera
-        else
+        else if (cameraMovementEnabled)
         {
             HandleCameraMovement();
         }
@@ -77,6 +80,14 @@ public class RTSCameraController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             followTransform = null;
+            // Toggle camera movement
+            cameraMovementEnabled = !cameraMovementEnabled;
+            
+            // Notify UI manager to show/hide pause panel
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.TogglePausePanel();
+            }
         }
     }
 
