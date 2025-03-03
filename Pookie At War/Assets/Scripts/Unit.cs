@@ -15,6 +15,7 @@ public class Unit : MonoBehaviour
 
     public HealthTracker healthTracker;
     private Renderer rend;
+    private Camera mainCamera;
     
     void Start()
     {
@@ -29,10 +30,22 @@ public class Unit : MonoBehaviour
         {
             Debug.LogError($"NavMeshAgent missing on unit {gameObject.name}!");
         }
+        
+        mainCamera = Camera.main;
+        if (mainCamera == null)
+        {
+            Debug.LogError("No main camera found in scene!");
+        }
     }
 
     void Update()
     {
+        // Make health bar face camera
+        if (healthTracker != null && mainCamera != null)
+        {
+            healthTracker.transform.rotation = mainCamera.transform.rotation;
+        }
+
         if (ControllingGeneral != null && agent != null)
         {
             // Only update path periodically to save performance
