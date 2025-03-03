@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI; // Add this for UI components
 using TMPro;
 using System.Collections;
+using System.Collections.Generic;
 
 public class SpawnPoint : MonoBehaviour
 {
@@ -11,9 +12,11 @@ public class SpawnPoint : MonoBehaviour
     [SerializeField] private float unitSpawnInterval = 5f; // Time between unit spawns
     [SerializeField] private float spawnRadius = 2f; // Distance from spawn point to place new units
     [SerializeField] private float claimRange = 5f; // Range within which units can claim this point
+    [SerializeField] private int maxUnitCapacity = 10;
     private Renderer rend;
     private Color originalColor;
     private bool isPlayerUnitInRange = false; // Track if a player unit is in range
+    private List<Unit> spawnedUnits = new List<Unit>();
     
     public bool IsClaimed { get; private set; }
     public int OwnerID { get; private set; } = -1;  // -1 = unclaimed, 0+ = general IDs
@@ -52,6 +55,14 @@ public class SpawnPoint : MonoBehaviour
         {
             yield return new WaitForSeconds(unitSpawnInterval);
             
+            // Clean up any destroyed units from our list
+            spawnedUnits.RemoveAll(unit => unit == null);
+            
+            if (spawnedUnits.Count >= maxUnitCapacity)
+            {
+                continue; // Skip spawning if at capacity
+            }
+            
             if (unitPrefab != null && ControllingGeneral != null)
             {
                 // Generate a random position around the spawn point
@@ -68,7 +79,8 @@ public class SpawnPoint : MonoBehaviour
                 if (unit != null)
                 {
                     ControllingGeneral.AddUnit(unit);
-                    Debug.Log($"Unit spawned at {spawnPosition} for general {OwnerID}");
+                    spawnedUnits.Add(unit);
+                    Debug.Log($"Unit spawned at {spawnPosition} for general {OwnerID}. Current count: {spawnedUnits.Count}/{maxUnitCapacity}");
                 }
                 else
                 {
